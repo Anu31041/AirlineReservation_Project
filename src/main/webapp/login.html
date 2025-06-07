@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Back to Home</a></li>
+        </ul>
+    </nav>
+    <h2>Login</h2>
+    <form id="loginForm" action="login.php" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" maxlength="10" required>
+        <span id="usernameError" class="error"></span>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" maxlength="10" required>
+        <span id="passwordError" class="error"></span>
+
+        <button type="submit">Login</button>
+    </form>
+    <a href="register.html">Register</a>
+    <script>
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameError = document.getElementById('usernameError');
+        const passwordError = document.getElementById('passwordError');
+
+        // Username validation (length and potential email format check)
+        usernameInput.addEventListener('input', () => {
+            if (usernameInput.value.length > 10) {
+                usernameError.textContent = 'Username cannot exceed 10 characters';
+                usernameError.style.color = 'red';
+                usernameInput.disabled = true;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(usernameInput.value) && usernameInput.value.length > 5) { // Optional email format check
+                usernameError.textContent = 'Invalid username format';
+                usernameError.style.color = 'red';
+            } else {
+                usernameError.textContent = '';
+                usernameInput.disabled = false;
+            }
+        });
+
+        // Password validation (length and complexity)
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value.length > 10) {
+                passwordError.textContent = 'Password cannot exceed 10 characters';
+                passwordError.style.color = 'red';
+                passwordInput.disabled = true;
+            } else {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                if (!passwordRegex.test(passwordInput.value)) {
+                    passwordError.textContent = 'Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+                    passwordError.style.color = 'red';
+                } else {
+                    passwordError.textContent = '';
+                }
+                passwordInput.disabled = false; // Enable input if less than 10 characters
+            }
+        });
+
+        // Basic form validation (consider adding checks for empty fields)
+        form.addEventListener('submit', (event) => {
+            if (usernameInput.value.length !== 10 || passwordInput.value.length !== 10) {
+                event.preventDefault();
+                if (usernameInput.value.length !== 10) {
+                    usernameError.textContent = 'Username must be 10 characters';
+                }
+                if (passwordInput.value.length !== 10) {
+                    passwordError.textContent = 'Password must be 10 characters';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

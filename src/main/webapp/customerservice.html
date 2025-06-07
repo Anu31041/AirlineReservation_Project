@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airline Reservation System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('https://www.discover-airlines.com/imgproxy/default-md/www.discover-airlines.com/en/assets/fleet/A320_CGI_Header_1300x1600.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Container Styles */
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Home Page Background */
+        body.home {
+            background-image: url('https://static.vecteezy.com/system/resources/previews/027/110/113/non_2x/airplane-in-sky-background-free-photo.jpg');
+        }
+
+        /* Register Page Background */
+        body.register {
+            background-image: url('https://www.shutterstock.com/image-photo/commercial-airplane-jetliner-flying-above-600nw-1291051624.jpg');
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: black;
+            color: white;
+            padding: 5px;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        nav li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+        }
+
+        /* Login Button Styles */
+        .login-btn {
+            display: block;
+            width: auto;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            text-align: center;
+            text-decoration: underline;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            color: #45a049;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Error Message Styles */
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="home">
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="bookflights.html">Book Flights</a></li>
+            <li><a href="managebookings.html">Manage Bookings</a></li>
+            <li><a href="#">Customer Service</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Welcome to Airline Reservation System</h1>
+        <a href="login.html" class="login-btn">Login</a>
+    </div>
+
+    <!-- Customer Services Section -->
+    <div class="customer-services">
+        <h2>Flight Status Inquiry</h2>
+        <form id="flightStatusForm">
+            <label for="flight-number">Flight Number:</label>
+            <input type="text" id="flight-number" name="flight-number" maxlength="3" required>
+            <span id="flightNumberError" class="error"></span>
+            <button type="submit">Check Status</button>
+        </form>
+
+        <h2>Baggage Services</h2>
+        <ul>
+            <li><a href="#">Baggage Allowance and Restrictions</a></li>
+            <li><a href="#">Baggage Fees and Payment</a></li>
+            <li><a href="#">Baggage Tracking and Tracing</a></li>
+        </ul>
+
+        <h2>Food Service</h2>
+        <ul>
+            <li><a href="#">Meal Options</a></li>
+            <li><a href="#">Special Meal Requests</a></li>
+            <li><a href="#">In-Flight Dining</a></li>
+        </ul>
+
+        <h2>Lodge Service</h2>
+        <ul>
+            <li><a href="#">Hotel Booking</a></li>
+            <li><a href="#">Airport Lounge Access</a></li>
+            <li><a href="#">Travel Accommodation Packages</a></li>
+        </ul>
+
+        <h2>Contact Us</h2>
+        <ul>
+            <li>Phone: +1 800 123 4567</li>
+            <li>Email: <a href="mailto:customer.service@airline.com">customer.service@airline.com</a></li>
+            <li>Online Chat: <a href="#">Start Chat</a></li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const flightNumberInput = document.getElementById('flight-number');
+            const flightNumberError = document.getElementById('flightNumberError');
+            const flightStatusForm = document.getElementById('flightStatusForm');
+
+            flightNumberInput.addEventListener('input', () => {
+                const flightNumber = flightNumberInput.value;
+
+                // Check if the input value is numeric and length does not exceed 3
+                if (isNaN(flightNumber) || flightNumber.length > 3) {
+                    flightNumberError.textContent = 'Flight number must be a number with up to 3 digits.';
+                    flightNumberInput.value = flightNumber.slice(0, 3); // Limit input to 3 characters
+                } else {
+                    flightNumberError.textContent = '';
+                }
+            });
+
+            flightStatusForm.addEventListener('submit', (event) => {
+                const flightNumber = flightNumberInput.value;
+
+                // Prevent form submission if validation fails
+                if (flightNumber.length === 0 || isNaN(flightNumber) || flightNumber.length > 3) {
+                    event.preventDefault();
+                    flightNumberError.textContent = 'Flight number must be a number with up to 3 digits.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
